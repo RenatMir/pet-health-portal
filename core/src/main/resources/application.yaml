@@ -17,4 +17,4 @@ spring:
 
   docker:
     compose:
-      file: ./docker/docker-compose.yaml
+      file: ./core/docker/docker-compose.yaml
