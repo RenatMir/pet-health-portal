@@ -1,0 +1,17 @@
+name: pet-health-portal-core
+services:
+  core-db:
+    container_name: core-db
+    image: postgres:17.6
+    ports:
+      - "9999:5432"
+    volumes:
+      - pet_health_portal_core:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DATABASE=core
+      - POSTGRES_USER=core
+      - POSTGRES_PASSWORD=core
+
+volumes:
+  pet_health_portal_core:
+    name: pet_health_portal_core

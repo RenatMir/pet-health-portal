@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: 000-timestamp-triggers.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 001-user-table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 002-pet-table.sql
+      relativeToChangelogFile: true

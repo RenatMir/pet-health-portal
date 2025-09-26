@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: structure/db.changelog-structure.yaml
+      relativeToChangelogFile: true

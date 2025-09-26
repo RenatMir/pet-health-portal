@@ -1,0 +1,20 @@
+server:
+  port: 9898
+
+spring:
+  application:
+    name: pet-health-portal
+
+  liquibase:
+    url: ${spring.datasource.url}
+    password: ${spring.datasource.password}
+    user: ${spring.datasource.username}
+
+  datasource:
+    url: jdbc:postgresql://localhost:9999/core
+    username: core
+    password: core
+
+  docker:
+    compose:
+      file: ./docker/docker-compose.yaml
