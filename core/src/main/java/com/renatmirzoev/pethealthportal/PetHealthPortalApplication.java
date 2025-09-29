@@ -9,4 +9,5 @@ public class PetHealthPortalApplication {
   static void main(String[] args) {
     SpringApplication.run(PetHealthPortalApplication.class, args);
   }
+
 }

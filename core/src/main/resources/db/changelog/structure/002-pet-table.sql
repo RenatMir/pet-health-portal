@@ -1,15 +1,15 @@
 CREATE TABLE IF NOT EXISTS pet
 (
-    id            BIGSERIAL PRIMARY KEY,
-    name          VARCHAR(100) NOT NULL,
-    breed         VARCHAR(50),
-    gender        VARCHAR(10)  NOT NULL CHECK (gender IN ('male', 'female')),
-    date_of_birth DATE,
-    owner_id      BIGINT REFERENCES "user" (id),
-    microchip_id  VARCHAR(50) UNIQUE,
-    weight_kg     DECIMAL(5, 2),
-    created_at    timestamptz  NOT NULL DEFAULT current_timestamp,
-    updated_at    timestamptz  NOT NULL DEFAULT current_timestamp
+    id              BIGSERIAL PRIMARY KEY,
+    owner_id        BIGINT       NULL REFERENCES "user" (id),
+    name            VARCHAR(100) NOT NULL,
+    breed           VARCHAR(50),
+    gender          VARCHAR(10)  NOT NULL CHECK (gender IN ('MALE', 'FEMALE')),
+    birth_date      DATE,
+    microchip_id    VARCHAR(50) UNIQUE,
+    weight_in_grams DECIMAL(5, 2),
+    created_at      timestamptz  NOT NULL DEFAULT current_timestamp,
+    updated_at      timestamptz  NOT NULL DEFAULT current_timestamp
 );
 
 DROP TRIGGER IF EXISTS created_at ON pet;

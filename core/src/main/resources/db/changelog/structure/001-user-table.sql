@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS "user"
 (
     id          BIGSERIAL PRIMARY KEY,
     first_name  VARCHAR(100) NOT NULL,
-    second_name VARCHAR(100) NOT NULL,
+    second_name VARCHAR(100),
     birth_date  DATE,
     created_at  timestamptz  NOT NULL DEFAULT current_timestamp,
     updated_at  timestamptz  NOT NULL DEFAULT current_timestamp

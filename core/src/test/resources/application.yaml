@@ -1,6 +1,3 @@
-server:
-  port: 9898
-
 spring:
   application:
     name: pet-health-portal
@@ -14,8 +11,3 @@ spring:
     url: jdbc:postgresql://localhost:9999/core
     username: core
     password: core
-
-  docker:
-    compose:
-      file: ./core/docker/docker-compose.yaml
-      lifecycle-management: start_only

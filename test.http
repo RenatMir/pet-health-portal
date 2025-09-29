@@ -1,0 +1,4 @@
+GET localhost:9898/pets/2
+
+###
+POST localhost:9898/1
