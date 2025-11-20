@@ -15,7 +15,9 @@ spring:
     username: core
     password: core
 
-  docker:
-    compose:
-      file: ./core/docker/docker-compose.yaml
-      lifecycle-management: start_only
+  jpa:
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: public #TODO: Change later

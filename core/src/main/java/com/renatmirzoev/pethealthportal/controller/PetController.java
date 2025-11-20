@@ -1,50 +1,58 @@
 package com.renatmirzoev.pethealthportal.controller;
 
-import java.util.Optional;
-
+import com.renatmirzoev.pethealthportal.mapper.PetMapper;
+import com.renatmirzoev.pethealthportal.model.entity.Pet;
+import com.renatmirzoev.pethealthportal.model.rest.CreatePetRequest;
+import com.renatmirzoev.pethealthportal.service.PetService;
+import jakarta.validation.Valid;
+import java.net.URI;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.renatmirzoev.pethealthportal.mapper.PetMapper;
-import com.renatmirzoev.pethealthportal.model.command.PatchPetCommand;
-import com.renatmirzoev.pethealthportal.model.dto.PatchPetRequest;
-import com.renatmirzoev.pethealthportal.model.dto.SavePetRequest;
-import com.renatmirzoev.pethealthportal.model.entity.Pet;
-import com.renatmirzoev.pethealthportal.service.PetService;
-
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-
-@RestController
 @Validated
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/pets")
+@RequestMapping("/api/pets")
 public class PetController {
 
-  private final PetService petService;
   private final PetMapper petMapper;
+  private final PetService petService;
 
   @GetMapping("/{id}")
-  public Optional<Pet> getPet(@PathVariable long id) {
-    return petService.getPetById(id);
+  // TODO: Replace Pet with PetResponse DTO
+  public ResponseEntity<Pet> getPetById(@PathVariable Long id) {
+    return petService
+        .getPetById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/microchip/{microchipId}")
+  public ResponseEntity<Pet> getPetByMicrochipId(@PathVariable String microchipId) {
+    return petService
+        .getPetByMicrochipId(microchipId)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping
-  public long savePet(@RequestBody @Valid final SavePetRequest request) {
-    Pet pet = petMapper.toPet(request);
-    return petService.savePet(pet);
-  }
+  public ResponseEntity<Pet> createPet(@RequestBody @Valid CreatePetRequest createPetRequest) {
+    Pet pet = petMapper.toPet(createPetRequest);
+    pet = petService.createPet(pet);
 
-  @PatchMapping("/{id}")
-  public void updatePet(@PathVariable long id, @RequestBody @Valid final PatchPetRequest request) {
-    PatchPetCommand patchPetCommand = petMapper.toPatchPetCommand(id, request);
-    petService.updatePet(patchPetCommand);
+    URI location =
+        ServletUriComponentsBuilder.fromCurrentRequestUri()
+            .path("/{id}")
+            .buildAndExpand(pet.getId())
+            .toUri();
+    return ResponseEntity.created(location).body(pet);
   }
-
 }
